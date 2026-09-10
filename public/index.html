@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Parfume | Elegancë dhe Stil</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-[#F9F6F0] text-slate-800 antialiased flex flex-col min-h-screen">
+
+    <!-- Kreu (Header) -->
+    <header class="sticky top-0 z-40 bg-[#F3EFE6]/95 backdrop-blur-md border-b border-amber-500/20 text-slate-900 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="switchPage('ballina')">
+                <span class="text-xl sm:text-2xl font-bold tracking-wider font-serif text-amber-700">ROYAL PARFUME</span>
+            </div>
+
+            <!-- Desktop Navigimi -->
+            <nav class="hidden md:flex items-center space-x-2 text-sm font-medium">
+                <button onclick="switchPage('ballina')" id="nav-ballina" class="nav-btn px-4 py-2 rounded-xl text-amber-700 font-bold transition">Ballina</button>
+                <button onclick="switchPage('meshkuj')" id="nav-meshkuj" class="nav-btn px-4 py-2 rounded-xl text-slate-700 hover:text-amber-700 transition">Meshkuj</button>
+                <button onclick="switchPage('femra')" id="nav-femra" class="nav-btn px-4 py-2 rounded-xl text-slate-700 hover:text-amber-700 transition">Femra</button>
+                <button onclick="switchPage('unisex')" id="nav-unisex" class="nav-btn px-4 py-2 rounded-xl text-slate-700 hover:text-amber-700 transition">Unisex</button>
+                <button onclick="switchPage('kontakti')" id="nav-kontakti" class="nav-btn px-4 py-2 rounded-xl text-slate-700 hover:text-amber-700 transition">Kontakti</button>
+            </nav>
+
+            <div class="flex items-center space-x-4">
+                <span class="text-xs font-semibold bg-slate-200/60 px-2.5 py-1 rounded text-slate-800">EUR (€)</span>
+                <button class="relative text-slate-800 hover:text-amber-700 transition cursor-pointer" onclick="toggleCart()">
+                    <i class="fa-solid fa-bag-shopping text-lg"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-2 bg-amber-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+                </button>
+                <!-- Butoni me tri vija (Hamburger) për Mobile -->
+                <button id="mobile-menu-btn" class="md:hidden text-slate-800 hover:text-amber-700 transition cursor-pointer p-2" onclick="toggleMobileMenu()">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Dropdown Menu për Mobile (Meshkuj, Femra, Unisex) -->
+        <div id="mobile-dropdown" class="hidden md:hidden bg-[#F3EFE6] border-t border-amber-500/20 px-4 py-4 space-y-2 shadow-lg">
+            <button onclick="switchPage('ballina'); toggleMobileMenu();" class="block w-full text-left px-4 py-2 rounded-xl text-slate-700 hover:bg-amber-100/60 transition font-medium">Ballina</button>
+            <button onclick="switchPage('meshkuj'); toggleMobileMenu();" class="block w-full text-left px-4 py-2 rounded-xl text-slate-700 hover:bg-amber-100/60 transition font-medium">Meshkuj</button>
+            <button onclick="switchPage('femra'); toggleMobileMenu();" class="block w-full text-left px-4 py-2 rounded-xl text-slate-700 hover:bg-amber-100/60 transition font-medium">Femra</button>
+            <button onclick="switchPage('unisex'); toggleMobileMenu();" class="block w-full text-left px-4 py-2 rounded-xl text-slate-700 hover:bg-amber-100/60 transition font-medium">Unisex</button>
+            <button onclick="switchPage('kontakti'); toggleMobileMenu();" class="block w-full text-left px-4 py-2 rounded-xl text-slate-700 hover:bg-amber-100/60 transition font-medium">Kontakti</button>
+        </div>
+    </header>
+
+    <!-- Mini-Shporta -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-slate-950/40 backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-[#F9F6F0] shadow-2xl flex flex-col z-50">
+                <div class="flex items-center justify-between px-6 py-5 bg-[#F3EFE6] border-b border-amber-500/20 text-slate-900">
+                    <h2 class="text-lg font-serif font-bold text-amber-700">Shporta Juaj</h2>
+                    <button onclick="toggleCart()" class="text-slate-500 hover:text-slate-900"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+                <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4">
+                    <p class="text-slate-500 text-center py-8">Shporta juaj është e zbrazët.</p>
+                </div>
+                <div class="border-t border-slate-200 p-6 bg-white space-y-4">
+                    <div class="flex justify-between text-base font-bold text-slate-900">
+                        <span>Totali:</span>
+                        <span id="cart-total" class="text-amber-700">€0.00</span>
+                    </div>
+                    <button onclick="openCartCheckout()" id="cart-checkout-btn" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 rounded-xl transition text-center text-sm hidden cursor-pointer">
+                        Vazhdo te Pagesa (Checkout)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal i Plotësimit të të Dhënave për Blerje (Checkout Modal) -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center px-4">
+        <div class="fixed inset-0 bg-slate-950/50 backdrop-blur-sm transition-opacity" onclick="toggleCheckoutModal()"></div>
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 relative z-10 shadow-2xl border border-amber-500/20 my-8">
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <div>
+                    <h3 class="text-2xl font-serif font-bold text-slate-900">Përfundoni Porosinë</h3>
+                    <p class="text-xs text-slate-500 mt-1">Plotësoni të dhënat tuaja për dërgesë</p>
+                </div>
+                <button onclick="toggleCheckoutModal()" class="text-slate-400 hover:text-slate-700 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div id="checkout-product-summary" class="bg-[#F9F6F0] p-4 rounded-2xl mb-6 border border-amber-200 text-sm">
+                <!-- Mbushet përmes JS -->
+            </div>
+
+            <!-- Formulari i dërgesës që dërgon të dhënat direkt te Formspree -->
+            <form action="https://formspree.io/f/xdenqaqq" method="POST" class="space-y-4">
+                <input type="hidden" name="detajet_porosise" id="form-product-details">
+                <input type="hidden" name="lloji_porosise" value="Porosi e Re per Parfum">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Emri *</label>
+                        <input type="text" name="emri" required placeholder="Emri juaj" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-600 text-sm bg-slate-50">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Mbiemri *</label>
+                        <input type="text" name="mbiemri" required placeholder="Mbiemri juaj" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-600 text-sm bg-slate-50">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Qyteti *</label>
+                        <input type="text" name="qyteti" required placeholder="p.sh. Prishtinë" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-600 text-sm bg-slate-50">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Numri i Telefonit *</label>
+                        <input type="tel" name="telefoni" required placeholder="+383 ..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-600 text-sm bg-slate-50">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Adresa e Banimit *</label>
+                    <input type="text" name="adresa" required placeholder="Rruga, Nr. i shtëpisë/banesës" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-600 text-sm bg-slate-50">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Mesazhi / Shënime shtesë (Opsionale)</label>
+                    <textarea name="mesazhi_shtese" rows="2" placeholder="Informacione shtesë për porosinë..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-600 text-sm bg-slate-50"></textarea>
+                </div>
+
+                <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-xs space-y-1 text-amber-900">
+                    <p class="font-bold"><i class="fa-solid fa-truck-fast mr-1"></i> Transporti: <span class="text-green-700 uppercase font-extrabold">Falas (€0.00)</span></p>
+                    <p class="font-bold"><i class="fa-solid fa-wallet mr-1"></i> Metoda e pagesës: Me para në dorë (Cash on Delivery)</p>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" onclick="prepareOrderData()" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-3.5 rounded-xl transition flex items-center justify-center space-x-2 cursor-pointer shadow-md text-sm">
+                        <i class="fa-solid fa-paper-plane text-base"></i>
+                        <span>Konfirmo dhe Dërgo Porosinë</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pjesa Kryesore Dinamike -->
+    <main class="flex-grow">
+
+        <!-- FAQJA E BALLINËS -->
+        <div id="page-ballina" class="page-content">
+            <section class="relative text-slate-900 py-28 lg:py-40 overflow-hidden">
+                <div class="absolute inset-0 z-0">
+                    <img src="perfume_background.jpg" alt="Background i dyqanit" class="w-full h-full object-cover object-center" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80';">
+                    <div class="absolute inset-0 bg-black/40"></div>
+                </div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="max-w-xl text-left space-y-6">
+                        <span class="inline-block text-amber-900 text-sm font-semibold tracking-widest uppercase bg-white/90 px-4 py-1.5 rounded-full border border-amber-300">Përvojë unike e elegancës</span>
+                        <h1 class="text-4xl sm:text-6xl font-serif font-bold leading-tight text-white">Aromat më prestigjioze në Kosovë</h1>
+                        <p class="text-slate-100 text-base sm:text-lg">Zbuloni koleksionin tonë të zgjedhur me kujdes nga brendet më ekskluzive botërore me cilësi garancie.</p>
+                        <div class="pt-4 flex flex-wrap gap-4">
+                            <button onclick="switchPage('femra')" class="bg-amber-600 hover:bg-amber-500 text-white font-bold px-8 py-3.5 rounded-full shadow-lg transition cursor-pointer">Koleksioni i Femrave</button>
+                            <button onclick="switchPage('meshkuj')" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-3.5 rounded-full shadow-lg transition cursor-pointer">Koleksioni i Meshkujve</button>
+                            <button onclick="switchPage('unisex')" class="bg-amber-800 hover:bg-amber-700 text-white font-bold px-8 py-3.5 rounded-full shadow-lg transition cursor-pointer">Koleksioni Unisex</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-12 bg-white border-b border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="p-4 space-y-2">
+                        <i class="fa-solid fa-truck-fast text-3xl text-amber-600 mb-2"></i>
+                        <h3 class="font-bold text-slate-900">Dërgesa Falas</h3>
+                        <p class="text-xs text-slate-500">Postë e shpejtë falas në të gjithë Kosovën brenda 24-48 orëve.</p>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <i class="fa-solid fa-award text-3xl text-amber-600 mb-2"></i>
+                        <h3 class="font-bold text-slate-900">Cilësi Garancie</h3>
+                        <p class="text-xs text-slate-500">100% Aroma origjinale dhe jetëgjatësi e garantuar.</p>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <i class="fa-solid fa-headset text-3xl text-amber-600 mb-2"></i>
+                        <h3 class="font-bold text-slate-900">Mbështetje Direkte</h3>
+                        <p class="text-xs text-slate-500">Porositje direkte dhe asistencë përmes formularit.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="flex justify-between items-end mb-10">
+                    <div>
+                        <span class="text-amber-700 text-xs font-bold uppercase tracking-wider">Më të kërkuarat</span>
+                        <h2 class="text-3xl font-serif font-bold text-slate-900">Aromat më të Pëlqyera</h2>
+                    </div>
+                    <button onclick="switchPage('femra')" class="text-amber-700 hover:text-amber-800 font-semibold text-sm flex items-center gap-2 cursor-pointer">
+                        Shiko të gjitha <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+                <!-- Ndryshuar këtu në grid-cols-2 për mobile -->
+                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6" id="home-featured-grid"></div>
+            </section>
+        </div>
+
+        <!-- FAQJA E MESHKUJVE -->
+        <div id="page-meshkuj" class="page-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="mb-8">
+                <h1 class="text-3xl font-serif font-bold text-slate-900 mb-2">Parfume për Meshkuj</h1>
+                <p class="text-slate-600">Koleksion ekskluziv i aromave maskuline nga brendet më prestigjioze botërore.</p>
+            </div>
+            <!-- Ndryshuar këtu në grid-cols-2 për mobile -->
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6" id="meshkuj-products-grid"></div>
+        </div>
+
+        <!-- FAQJA E FEMRAVE -->
+        <div id="page-femra" class="page-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="mb-8">
+                <h1 class="text-3xl font-serif font-bold text-slate-900 mb-2">Parfume për Femra</h1>
+                <p class="text-slate-600">Koleksion ekskluziv prej aromave më të kërkuara nga brendet ndërkombëtare.</p>
+            </div>
+            <!-- Ndryshuar këtu në grid-cols-2 për mobile -->
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6" id="femra-products-grid"></div>
+        </div>
+
+        <!-- FAQJA UNISEX -->
+        <div id="page-unisex" class="page-content hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="mb-8">
+                <h1 class="text-3xl font-serif font-bold text-slate-900 mb-2">Parfume Unisex & Niche</h1>
+                <p class="text-slate-600">Koleksion luksoz i aromave unike për çdo gjini nga shtëpitë më prestigjioze të parfumave.</p>
+            </div>
+            <!-- Ndryshuar këtu në grid-cols-2 për mobile -->
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6" id="unisex-products-grid"></div>
+        </div>
+
+        <!-- FAQJA E KONTAKTIT -->
+        <div id="page-kontakti" class="page-content hidden max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200 shadow-sm">
+                <h1 class="text-3xl font-serif font-bold text-slate-900 mb-4 text-center">Na Kontaktoni</h1>
+                <p class="text-slate-600 mb-8 text-center text-sm">Na shkruani për çdo pyetje rreth porosive apo dërgesave.</p>
+                
+                <form action="https://formspree.io/f/xdenqaqq" method="POST" class="space-y-5">
+                    <input type="hidden" name="lloji_formularit" value="Mesazh Kontakti nga Faqja">
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Emri</label>
+                        <input type="text" name="emri_kontaktit" required placeholder="Shkruani emrin tuaj" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-600 bg-[#F9F6F0]/50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Email-i ose Telefoni</label>
+                        <input type="text" name="kontakt_info" required placeholder="Email ose numri i telefonit" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-600 bg-[#F9F6F0]/50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Komenti / Mesazhi juaj</label>
+                        <textarea name="mesazhi_kontaktit" rows="4" required placeholder="Shkruani mesazhin tuaj..." class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-600 bg-[#F9F6F0]/50"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-3.5 rounded-xl transition cursor-pointer">Dërgo Mesazhin</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#ECE6D8] text-slate-800 pt-16 pb-8 border-t border-amber-500/20 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-slate-300/60">
+                <div class="space-y-4">
+                    <span class="text-xl font-bold font-serif text-amber-800 tracking-wider">ROYAL PARFUME</span>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Destinacioni juaj kryesor për aromat më luksoze dhe origjinale në Kosovë. Zgjidhni elegancën dhe stilin që ju përshtatet.
+                    </p>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="text-sm font-bold text-slate-900 tracking-wider uppercase font-serif">Kategoritë</h4>
+                    <ul class="space-y-2.5 text-xs text-slate-600">
+                        <li><button onclick="switchPage('ballina')" class="hover:text-amber-700 transition">Ballina</button></li>
+                        <li><button onclick="switchPage('meshkuj')" class="hover:text-amber-700 transition">Parfume për Meshkuj</button></li>
+                        <li><button onclick="switchPage('femra')" class="hover:text-amber-700 transition">Parfume për Femra</button></li>
+                        <li><button onclick="switchPage('unisex')" class="hover:text-amber-700 transition">Parfume Unisex & Niche</button></li>
+                    </ul>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="text-sm font-bold text-slate-900 tracking-wider uppercase font-serif">Na Ndiqni</h4>
+                    <div class="flex flex-col space-y-2 text-xs">
+                        <a href="https://instagram.com/Royalessence.ks" target="_blank" class="inline-flex items-center gap-2 text-slate-700 hover:text-amber-700 font-semibold transition">
+                            <i class="fa-brands fa-instagram text-base text-amber-700"></i> Instagram: Royalessence.ks
+                        </a>
+                        <a href="https://facebook.com/" target="_blank" class="inline-flex items-center gap-2 text-slate-700 hover:text-amber-700 font-semibold transition">
+                            <i class="fa-brands fa-facebook-f text-base text-amber-700"></i> Facebook: Royal Parfume Kosova
+                        </a>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="text-sm font-bold text-slate-900 tracking-wider uppercase font-serif">Na Kontaktoni</h4>
+                    <div class="space-y-3 text-xs text-slate-600">
+                        <p class="flex items-center gap-2">
+                            <i class="fa-solid fa-envelope text-amber-700"></i> 
+                            <a href="mailto:royalessence.ks@hotmail.com" class="hover:underline">royalessence.ks@hotmail.com</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <p>&copy; 2026 Royal Parfume Kosova. Të gjitha të drejtat e rezervuara.</p>
+                <div class="flex items-center space-x-4">
+                    <span class="font-medium text-slate-600">Transport Falas & Pagesa pas pranimit (Cash on Delivery)</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const rawPerfumes = [
+            { name: "Sol de Janeiro Cheirosa 62 Perfume Mist 90ml", price: 19.90, regularPrice: 29.90 },
+            { name: "Xerjoff Erba Pura EDP 100ml", price: 47.90, regularPrice: 89.99 },
+            { name: "Ysl Libre Edp 90ml", price: 43.90, regularPrice: 89.99 },
+            { name: "Carolina Herrera La Bomba EDP 80ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Narciso Poudre 90ml", price: 43.90, regularPrice: 67.90 },
+            { name: "Coco Mademoiselle EDP Intense Chanel 100ml", price: 43.90, regularPrice: 79.90 },
+            { name: "Narciso Pure Musc EDP 100ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Tom Ford Lost Cherry EDP 100ml", price: 43.90, regularPrice: 79.90 },
+            { name: "Jean Paul Gaulttier Le Belle Le Parfum 100ml", price: 47.90, regularPrice: 89.90 },
+            { name: "Victoria's Secret Bombshell Santorini EDP 100ML", price: 37.90, regularPrice: 64.90 },
+            { name: "Prada Paradoxe EDP 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Parfums De Marley Delina 75ml", price: 47.90, regularPrice: 84.99 },
+            { name: "YSL Libre Berry&Crush EDP 90ml", price: 43.90, regularPrice: 73.99 },
+            { name: "Chloe EDP 75ML", price: 43.90, regularPrice: 73.90 },
+            { name: "Burberry Her EDP 100ml", price: 43.90, regularPrice: 69.90 },
+            { name: "Valentino Born In Roma Extradose 100ml", price: 49.90, regularPrice: 106.00 },
+            { name: "Chloe Nomade EDP 75ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Armani My Way EDP 90ML", price: 43.90, regularPrice: 77.90 },
+            { name: "Ysl Libre edp intense 90ml", price: 43.90, regularPrice: 93.99 },
+            { name: "Parfums De Marley Valaya-EDP 75ML", price: 46.90, regularPrice: 88.99 },
+            { name: "ZADIG & Voltiare For Her 100ml", price: 46.90, regularPrice: 73.99 },
+            { name: "Versace Bright Crystal EDT 90ML", price: 45.90, regularPrice: 95.90 },
+            { name: "Eternity For Women Intense 100ml", price: 43.90, regularPrice: 66.90 },
+            { name: "Dolce Gabbana The One EDP 75ml", price: 43.90, regularPrice: 70.90 },
+            { name: "Valentino Born In Roma Women 100ml", price: 49.90, regularPrice: 105.50 },
+            { name: "Idole Aura EDP 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Alien Mugler Extra intense EDP 90ML", price: 43.90, regularPrice: 82.90 },
+            { name: "Ysl Libre le parfum 90ml", price: 43.90, regularPrice: 93.99 },
+            { name: "Burberry Goddess edp 100 ml", price: 43.90, regularPrice: 83.90 },
+            { name: "Jean Paul Gaultter Divine 100ml", price: 49.90, regularPrice: 93.90 },
+            { name: "Amouage Epic 100ml", price: 57.90, regularPrice: 114.90 },
+            { name: "Versace Crystal Noir 90ml EDP", price: 43.90, regularPrice: 73.90 },
+            { name: "Dior Pure Poison 100ml", price: 41.90, regularPrice: 77.90 },
+            { name: "Miss Dior Absolutely blooming 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Idole Le Parfum 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Lady Milion EDT 80ml", price: 43.90, regularPrice: 69.90 },
+            { name: "La Vie Est Belle VanillaNude 75ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Gucci Guilty EDT 75ML", price: 43.90, regularPrice: 72.90 },
+            { name: "Dolce Gabbana The Only One 2 EDP 100ML", price: 43.90, regularPrice: 73.90 },
+            { name: "Dolce Gabbana The Only One Intense EDP 100ML", price: 43.90, regularPrice: 73.90 },
+            { name: "Armani My Way Edition Nacre 90ml", price: 43.90, regularPrice: 77.90 },
+            { name: "Mugler Angel EDP 100ML", price: 43.90, regularPrice: 74.90 },
+            { name: "Mugler Angel Nova EDP 100ML", price: 43.90, regularPrice: 74.90 },
+            { name: "My Burbery Black EDP 90ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Coco Noir Chanel edp 100ml", price: 43.90, regularPrice: 77.90 },
+            { name: "Dolce Gabbana Light Blue Summer Vibes 100ml", price: 43.90, regularPrice: 69.90 },
+            { name: "Ysl Libre Vanilla Couture 90 ml", price: 43.90, regularPrice: 89.99 },
+            { name: "Narciso For Her edt 100ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Narciso Fleur Musc 100ml", price: 43.90, regularPrice: 67.90 },
+            { name: "Armani si Passione 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Givenchy L'interdit Rouge edp 80ml", price: 43.90, regularPrice: 69.90 },
+            { name: "Tom Ford Vanilla Sex edp 100ml", price: 50.90, regularPrice: 110.90 },
+            { name: "Lancome - La Vie Est Belle EDP 75ml", price: 43.90, regularPrice: 70.00 },
+            { name: "Prada Paradoxe Intense - EDP 90 ML", price: 43.90, regularPrice: 84.00 },
+            { name: "Versace Bright Crystal Absolu - EDP 90ML", price: 46.90, regularPrice: 96.80 },
+            { name: "Armani My Way Sunny Vanilla 90ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Scandal Intense edp 100ml", price: 43.90, regularPrice: 77.90 },
+            { name: "Carolina Herrera Good Girl Velvet Fatale 80 ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Carolina Herrera Good Girl 80 ml", price: 43.90, regularPrice: 73.90 },
+            { name: "One Milion Royal 80ml", price: 43.90, regularPrice: 69.90 },
+            { name: "Parfume De Marley Meliora 75ml", price: 51.90, regularPrice: 89.90 },
+            { name: "Armaf Club De Nuit Women EDP 105ML", price: 41.90, regularPrice: 57.90 },
+            { name: "Armaf Club De Nuit Intense Women 105ml", price: 41.90, regularPrice: 57.90 },
+            { name: "Creed Aventus Her 100ml", price: 43.90, regularPrice: 76.90 },
+            { name: "YSL Black Opium EDP 90ML", price: 43.90, regularPrice: 70.99 },
+            { name: "Versace Pour Femme Dylan Blue EDP 100ML", price: 43.90, regularPrice: 82.99 },
+            { name: "Eternity For Women edp 100ml", price: 43.90, regularPrice: 66.90 },
+            { name: "Valentino Born In Roma Pink PP 100ml", price: 49.90, regularPrice: 108.00 },
+            { name: "Dolce Gabbana My Devotion EDP 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Roberto Cavalli Paradiso Assoluto EDP 75ml", price: 43.90, regularPrice: 68.90 },
+            { name: "Lancome Tresor La Nuit Intense 75ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Boss Scent EDP 100ml", price: 43.90, regularPrice: 76.90 },
+            { name: "Paco Rabanne Olympea Solar 80ml", price: 43.90, regularPrice: 70.90 },
+            { name: "Idole Le Grand Parfum 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Gucci Flora Gergous Gardenia Intense 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "La Vie Est Belle EDP intense 75ml", price: 43.90, regularPrice: 72.90 },
+            { name: "Armani Code Cashmere 75ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Armani Si Passione Eclat EDP 100ML", price: 43.90, regularPrice: 74.90 },
+            { name: "Maison Apom Femme EDP 70ML", price: 43.90, regularPrice: 79.90 },
+            { name: "Jimmy Choo I Want Choo 100ml", price: 43.90, regularPrice: 76.90 },
+            { name: "Dolce Gabbana The Only One EDP 100ML", price: 43.90, regularPrice: 74.90 },
+            { name: "Alien Mugler Hypersense 90ml", price: 43.90, regularPrice: 79.90 },
+            { name: "Alien Mugler EDP 90ML", price: 43.90, regularPrice: 81.90 },
+            { name: "Armani My Way intense 90ml", price: 43.90, regularPrice: 79.90 },
+            { name: "Victoria's Secret Paris EDP 100ML", price: 37.90, regularPrice: 71.90 },
+            { name: "Victoria's Secret Bombshell St.Tropez EDP 100ML", price: 37.90, regularPrice: 67.90 },
+            { name: "My Burberry Blush 90ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Chanel Gabrielle 100ml", price: 39.90, regularPrice: 67.90 },
+            { name: "Narciso For Her edp 100ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Armani si edp 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Tom Ford Bitter Peach edp 100ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Dior Miss Dior EDP 100ml", price: 43.90, regularPrice: 68.90 },
+            { name: "Amouage Blossom Love EDP 100ml", price: 50.90, regularPrice: null },
+            { name: "Gucci Flora Gorgeous Gardenia EDP 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Coco Mademoiselle Chanel Paris EDP 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Lancome Poeme-EDP 100ML", price: 43.90, regularPrice: 82.90 },
+            { name: "JPG Scandal-EDP 80ML", price: 46.90, regularPrice: 87.90 },
+            { name: "JPG Scandal By Night -EDP 80 ML", price: 46.90, regularPrice: 87.90 },
+            { name: "Marc Jacobs Decadence-EDP 100ML", price: 46.90, regularPrice: 87.90 },
+            { name: "Versace Crystal Emerald - EDP 90ML", price: 46.90, regularPrice: 96.80 },
+            { name: "Montale Lucky Candy", price: 43.90, regularPrice: 87.90 },
+            { name: "Givenchy L'interdit Absolu 80 ml edp", price: 43.90, regularPrice: 74.90 },
+            { name: "Jimmy Choo I Want Choo Le Parfum 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Prada La Femme 100ml", price: 47.90, regularPrice: 87.90 },
+            { name: "Valentino Sogno in Rosso", price: 49.90, regularPrice: 106.50 },
+            { name: "Tresor La Nuit Intense 100ml", price: 48.90, regularPrice: 102.00 },
+            { name: "Calvin Klein Shock her 200ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Burberry Her Elixir 100ml EDP", price: 43.90, regularPrice: 69.90 },
+            { name: "Parfum De Marley Cassili 75ml", price: 51.90, regularPrice: 89.90 },
+            { name: "Parfum De Marley Sedbury 75ml", price: 51.90, regularPrice: 89.90 },
+            { name: "Armaf Club De Nuit Imperiale EDP 105", price: 41.90, regularPrice: 57.90 },
+            { name: "Hugo Boss Scent Parfum Edition 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "YSL Black Opium EDP Over Red 90ml", price: 43.90, regularPrice: 68.99 },
+            { name: "YSL Black Opium EDP Intense 90ml", price: 43.90, regularPrice: 68.99 },
+            { name: "Versace Yellow Diamond Intense EDP 90ML", price: 43.90, regularPrice: 64.90 },
+            { name: "Versace Yellow Diamond EDT 90ML", price: 43.90, regularPrice: 70.90 },
+            { name: "Eternity For Women Aromatic Essence 100ml", price: 43.90, regularPrice: 66.90 },
+            { name: "Dolce Gabbana Rose The One EDP 75ML", price: 43.90, regularPrice: 70.90 },
+            { name: "Valentino Born In Roma Green Stravaganza 100ml", price: 49.90, regularPrice: 107.00 },
+            { name: "Valentino Born In Roma Yellow Dream 100ml", price: 49.90, regularPrice: 107.00 },
+            { name: "Valentino Born In Roma Coral Fantasy 100ml", price: 49.90, regularPrice: 106.80 },
+            { name: "Valentino Born In Roma Intense Women 100ml", price: 49.90, regularPrice: 108.00 },
+            { name: "Dolce Gabbana Devotion EDP 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Hermes Barenia EDP 100ml", price: 43.90, regularPrice: 62.90 },
+            { name: "Roberto Cavalli Florence EDP 75ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Roberto Cavalli Paradiso Azzuro EDP 75ml", price: 43.90, regularPrice: 68.90 },
+            { name: "Roberto Cavalli EDP 75ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Paco Rabanne Fame EDP 80ml", price: 43.90, regularPrice: 72.90 },
+            { name: "Paco Rabanne Fame Bloming Pink EDP 80ml", price: 43.90, regularPrice: 72.90 },
+            { name: "Paco Rabanne Fame The Couture Edition EDP 80ml", price: 43.90, regularPrice: 72.90 },
+            { name: "Parfum De Marley Athalia 75ml", price: 51.90, regularPrice: 93.90 },
+            { name: "Parfum De Marley Safand 75ml", price: 51.90, regularPrice: 92.90 },
+            { name: "Parfum De Marley Darcy EDP 75ml", price: 51.90, regularPrice: 92.90 },
+            { name: "Boss Scent Absolu EDP 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Boss Alive EDP 80 ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Boss Alive Intense 80 ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Boss Alive Absolu 80ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Paco Rabanne Olympea Blossom 80ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Paco Rabanne Olympea Intense 80ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Paco Rabanne Olympea Parfum 80ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Paco Rabanne Olympea EDP 80ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Dior Hypnotic Poison EDP 100ml", price: 43.90, regularPrice: 77.90 },
+            { name: "Miss Dior Eau De Fraiche EDT 100ml", price: 41.90, regularPrice: 66.90 },
+            { name: "YSL Mon Paris Couture 90ml", price: 43.90, regularPrice: 73.99 },
+            { name: "Ysl Mon Paris EDP 90ML", price: 43.90, regularPrice: 73.99 },
+            { name: "Gucci Flora Gergous Mangolia 100ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Gucci Flora Gergous Gardenia White 100ml", price: 43.90, regularPrice: 70.90 },
+            { name: "Gucci Flora Gergous Gardenia 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Jean Paul Gaulttier Le Belle Paradise Garden 100ml", price: 47.90, regularPrice: 89.90 },
+            { name: "Jean Paul Gaulttier Le Belle Fleur Terrible 100ml", price: 47.90, regularPrice: 89.90 },
+            { name: "Dolce Gabbana Queen 100ml", price: 43.90, regularPrice: 71.90 },
+            { name: "La Vie Est Belle Oui 75ml", price: 43.90, regularPrice: 71.90 },
+            { name: "La Vie Est Belle L'elixir 75ml", price: 43.90, regularPrice: 73.90 },
+            { name: "La Vie Est Belle EDP 75ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Armani Code Absolu 75ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Armani Si Passione Red Musk EDP 100ML", price: 43.90, regularPrice: 74.90 },
+            { name: "Maison Lumiere Noire Pour Femme 70 ml", price: 43.90, regularPrice: 79.90 },
+            { name: "Jimmy Choo I Want Choo Forever 100ml", price: 43.90, regularPrice: 77.90 },
+            { name: "Gucci Guilty Elixir de Parfum 50ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Victoria's Secret Bombshell Amalfi EDP 100ML", price: 37.90, regularPrice: 67.90 },
+            { name: "Mugler Angel Fantasm EDP 100ML", price: 43.90, regularPrice: 74.90 },
+            { name: "Narciso All of me EDP 90ML", price: 41.90, regularPrice: 71.90 },
+            { name: "Narciso Forever EDP 100ML", price: 43.90, regularPrice: 73.90 },
+            { name: "My Euphoria edp 100ml", price: 41.90, regularPrice: 69.90 },
+            { name: "Euphoria Blush EDP 100ML", price: 41.90, regularPrice: 69.90 },
+            { name: "Lattafa Yara 100ml", price: 37.90, regularPrice: 49.90 },
+            { name: "Burberry Weekend EDP 100ml", price: 43.90, regularPrice: 67.90 },
+            { name: "My Burberry 90ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Chanel N'19 EDP 100ml", price: 39.90, regularPrice: 66.90 },
+            { name: "Chanel N'22 edp 100ml", price: 39.90, regularPrice: 66.90 },
+            { name: "Coco Mademoiselle L'eau Prive Chanel EDP 100ml", price: 43.90, regularPrice: 79.90 },
+            { name: "YSL Mefisto Le Parfum EDP 90ml", price: 39.90, regularPrice: 70.99 },
+            { name: "Ysl Libre L'absolu platine 90ml", price: 43.90, regularPrice: 89.99 },
+            { name: "Narciso Ambre edp 90ml", price: 43.90, regularPrice: 69.90 },
+            { name: "Narciso Rouge edp 90ml", price: 43.90, regularPrice: 67.90 },
+            { name: "Armani Si Fiori 100 ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Givenchy L'interdit intense edp 80 ml", price: 43.90, regularPrice: 69.90 },
+            { name: "Givenchy L'interdit edp 80ml", price: 43.90, regularPrice: 69.90 },
+            { name: "Jean Paul Gaultier Scandal le Parfum EDP 100ml", price: 43.90, regularPrice: 68.90 },
+            { name: "Lattafa Yara EDP 100ml", price: 40.00, regularPrice: 51.90 }
+        ];
+
+        const rawMenPerfumes = [
+            { name: "Louis Vuitton Imagination EDP 100ml", price: 49.90, regularPrice: 106.90 },
+            { name: "Prada Paradigme EDP 100ml", price: 43.90, regularPrice: 79.90 },
+            { name: "Acqua di Gio Pour Homme 75ml", price: 43.90, regularPrice: 67.90 },
+            { name: "Azzaro The Most Wanted Parfum 100ml", price: 43.90, regularPrice: 69.90 },
+            { name: "JOOP Homme EDT 125ml", price: 37.90, regularPrice: 51.90 },
+            { name: "Louis Vuitton Ombre Nomade EDP 100ml", price: 49.90, regularPrice: 107.90 },
+            { name: "Acqua di gio Parfumo 100ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Valentino Born In Roma Intense 100ml", price: 48.90, regularPrice: 105.00 },
+            { name: "Xerjoff Erba Pura EDP 100ml", price: 47.90, regularPrice: 89.99 },
+            { name: "Tom Ford Tobacco Vanille EDP 100ml", price: 50.90, regularPrice: 110.20 },
+            { name: "Armani Stronger With You Intensely 100ml", price: 43.90, regularPrice: 79.90 },
+            { name: "Dior Sauvage Elixir EDP 60ml", price: 43.90, regularPrice: 76.90 },
+            { name: "Acqua di Gio Profondo 100ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Tom Ford Ombre Leather EDP 100ml", price: 43.90, regularPrice: 70.00 },
+            { name: "Jean Paul Gaultier Le Male Le Parfum EDP 125ml", price: 49.90, regularPrice: 91.00 },
+            { name: "Mancera Red Tobacco 120ml", price: 44.90, regularPrice: 88.90 },
+            { name: "Creed Aventus Absolu EDP 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Tom Ford Oud Wood EDP 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Creed Aventus EDP 100ml", price: 44.90, regularPrice: 76.90 },
+            { name: "Jean Paul Gaultier Le Beau Le Parfum 125ml", price: 49.90, regularPrice: 89.90 },
+            { name: "Bleu de Chanel L'Exclusif 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Dolce Gabbana The One EDT 100ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Valentino Born In Roma Green Stravaganza 100ml", price: 49.90, regularPrice: 106.00 },
+            { name: "Armani Code Parfum EDP 75ml", price: 43.90, regularPrice: 74.90 },
+            { name: "One Million EDT 100ml", price: 46.90, regularPrice: 97.20 },
+            { name: "Xerjoff Alexandria II", price: 50.90, regularPrice: 110.90 },
+            { name: "Tom Ford Noir Extreme EDP 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Versace Eros EDP 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Bleu de Chanel EDP 100ml", price: 43.90, regularPrice: 79.90 },
+            { name: "Carolina Herrera Bad Boy 100ml", price: 47.90, regularPrice: 97.90 },
+            { name: "Xerjoff More Than Words 100ml", price: 47.90, regularPrice: 90.00 },
+            { name: "YSL MYSELF Le Parfum 100ml", price: 43.90, regularPrice: 77.99 },
+            { name: "Xerjoff Naxos EDP 100ml", price: 50.90, regularPrice: 110.00 },
+            { name: "Gucci Guilty Pour Homme 50ml", price: 43.90, regularPrice: 72.90 },
+            { name: "Azzaro Wanted By Night EDP 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Azzaro Wanted Tonic EDT 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Tom Ford Oud Wood Intense 100ml", price: 50.90, regularPrice: 110.50 },
+            { name: "Jean Paul Gaultier Scandal Absolu 100ml", price: 46.90, regularPrice: 76.90 },
+            { name: "Prada Carbon EDT 100ml", price: 43.90, regularPrice: 77.90 },
+            { name: "Prada Black EDP 100ml", price: 43.90, regularPrice: 77.90 },
+            { name: "One Million Privé EDP 100ml", price: 47.90, regularPrice: 98.20 },
+            { name: "Parfum De Marley Layton 125ml", price: 43.90, regularPrice: 77.90 },
+            { name: "Creed Silver Water Mountain EDP 100ml", price: 43.90, regularPrice: 79.90 },
+            { name: "Versace Eros EDT 100ml", price: 43.90, regularPrice: 66.90 },
+            { name: "Dolce Gabbana Light Blue Intense 100ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Dolce Gabbana King EDP 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "YSL Y Le Parfum 100ml", price: 43.90, regularPrice: 76.99 },
+            { name: "YSL Y EDP 100ml", price: 43.90, regularPrice: 75.99 },
+            { name: "Viktor & Rolf Spicebomb Extreme EDP 90ml", price: 43.90, regularPrice: 69.90 },
+            { name: "Dior Sauvage EDP 100ml", price: 43.90, regularPrice: 70.90 },
+            { name: "Boss Bottled Parfum 100ml", price: 43.90, regularPrice: 67.90 },
+            { name: "Versace Eros Energy EDP 100ml", price: 47.90, regularPrice: 98.00 },
+            { name: "Invictus Victory Elixir 100ml", price: 43.90, regularPrice: 76.90 },
+            { name: "Mont Blanc Explorer EDP 100ml", price: 46.90, regularPrice: 76.90 },
+            { name: "Azzaro Wanted Forever EDP 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Armani Stronger Powerfully 100ml", price: 43.90, regularPrice: 79.90 },
+            { name: "Dior Homme Parfum 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Amouage Interlude Black Irish 100ml", price: 57.90, regularPrice: 114.90 },
+            { name: "Scandal Intense EDP 100ml", price: 43.90, regularPrice: 77.90 },
+            { name: "Moschino Toyboy 2 EDP 100ml", price: 46.90, regularPrice: 96.50 },
+            { name: "Jean Paul Gaultier Scandal Le Parfum 100ml", price: 46.90, regularPrice: 76.90 },
+            { name: "De Marley Pegasus 125ml", price: 46.90, regularPrice: 73.90 },
+            { name: "Givenchy Gentleman Society EDP 100ml", price: 43.90, regularPrice: 69.90 },
+            { name: "Paco Rabanne Invictus EDT 100ml", price: 43.90, regularPrice: 76.90 },
+            { name: "Valentino Born In Roma Extradose 100ml", price: 49.90, regularPrice: 106.50 },
+            { name: "Paco Rabanne Phantom Parfum 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Dior Fahrenheit 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Roberto Cavalli Paradise Found EDT 75ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Versace Dylan Blue EDT 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Versace Eau De Fraiche Extreme 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Prada Luna Rossa EDT 100ml", price: 43.90, regularPrice: 77.90 },
+            { name: "Prada Ocean EDP 100ml", price: 43.90, regularPrice: 77.90 },
+            { name: "One Million Parfum EDP 100ml", price: 48.90, regularPrice: 103.00 },
+            { name: "Parfum De Marley Godolphin 125ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Megamare Otoparis EDP 50ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Lattafa ASAD 100ml", price: 37.90, regularPrice: 49.90 },
+            { name: "Creed Himalaya EDP 100ml", price: 43.90, regularPrice: 79.90 },
+            { name: "Versace Eros Flame EDP 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "YSL MYSELF EDP 100ml", price: 43.90, regularPrice: 74.99 },
+            { name: "Armani Stronger with you Absolutely 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Jean Paul Gaultier Elixir EDP 125ml", price: 49.90, regularPrice: 90.00 },
+            { name: "JPG Le Beau Paradise Garden EDP 100ml", price: 48.90, regularPrice: 105.00 },
+            { name: "Louis Vuitton Attrape-Rêves EDP 100ml", price: 50.90, regularPrice: 110.50 },
+            { name: "Louis Vuitton Météore EDP 100ml", price: 50.90, regularPrice: 110.20 },
+            { name: "Amouage Opus V-EDP 100ML", price: 57.90, regularPrice: 113.90 },
+            { name: "Amouage Jubilation XXV-Edp 100m", price: 57.90, regularPrice: 113.90 },
+            { name: "Amouage Interlude 53-EDP 100ML", price: 57.90, regularPrice: 113.90 },
+            { name: "Amouage Purpose-EDP 100ML", price: 57.90, regularPrice: 113.90 },
+            { name: "Xerjoff Lamborghini Perseveranza EDP 100ml", price: 50.90, regularPrice: 110.00 },
+            { name: "Xerjoff Lamborghini Fierezza EDP 100ml", price: 50.90, regularPrice: 110.90 },
+            { name: "Xerjoff Lamborghini Avanguardia EDP 100ml", price: 50.90, regularPrice: 110.00 },
+            { name: "Montale Greyland EDP 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Versace Eros Najim EDP 100ml", price: 43.90, regularPrice: 72.90 },
+            { name: "Armani Code Elixir 125ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Gucci Guilty EDT 90ml", price: 43.90, regularPrice: 77.90 },
+            { name: "Givenchy Gentleman Society Ambre 100ml", price: 43.90, regularPrice: 76.90 },
+            { name: "Amouage Reflection Men 100ml", price: 57.90, regularPrice: 114.90 },
+            { name: "Moschino Toy Boy 100ml", price: 46.90, regularPrice: 74.90 },
+            { name: "YSL Babycat 75ml", price: 51.90, regularPrice: 93.99 },
+            { name: "Amouage Lustre 100ml", price: 57.90, regularPrice: 114.90 },
+            { name: "Amouage Reasons 100ml", price: 57.90, regularPrice: 114.90 },
+            { name: "Amouage Outlanders 100ml", price: 57.90, regularPrice: 114.90 },
+            { name: "Dior Homme EDT 100ml", price: 47.90, regularPrice: 99.00 },
+            { name: "Mont Blanc Legend EDT 100ml", price: 45.90, regularPrice: 95.90 },
+            { name: "Mont Blanc Legend Red 100ml", price: 43.90, regularPrice: 66.90 },
+            { name: "Yves Saint Laurent Kouros", price: 43.90, regularPrice: 66.99 },
+            { name: "Parfum De Marley Kalan 125ml", price: 46.90, regularPrice: 69.90 },
+            { name: "Armaf Club De Nuit Milestone EDP 105ml", price: 41.90, regularPrice: 57.90 },
+            { name: "Paco Rabanne Invictus Intense 100ml", price: 43.90, regularPrice: 68.90 },
+            { name: "Paco Rabanne Invictus Legend EDP 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Valentino Born In Roma Yellow Dream 100ml", price: 49.90, regularPrice: 106.00 },
+            { name: "Valentino Born In Roma 100ml", price: 48.90, regularPrice: 104.50 },
+            { name: "Valentino Born In Roma Coral Fantasy EDT 100ml", price: 48.90, regularPrice: 102.40 },
+            { name: "Dolce Gabbana Devotion Pour Homme EDP 100ml", price: 43.90, regularPrice: 77.90 },
+            { name: "Paco Rabanne Phantom Legion 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Paco Rabanne Phantom EDP 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "One Million Lucky EDT 100ml", price: 47.90, regularPrice: 97.50 },
+            { name: "Parfum De Marley Percival 125ml", price: 43.90, regularPrice: 67.90 },
+            { name: "Parfum De Marley Althair 125ml", price: 43.90, regularPrice: 69.90 },
+            { name: "Parfum De Marley Perseus 125ml", price: 43.90, regularPrice: 69.90 },
+            { name: "Parfum De Marley Greenley 125ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Armani Stronger You Sandalwood EDP 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Hermes Ambre Narguile EDT 100ml", price: 41.90, regularPrice: 74.90 },
+            { name: "Mancera Wild Python EDP 120ml", price: 44.90, regularPrice: 83.90 },
+            { name: "Jean Paul Gaultier Ultra Male 125ml", price: 48.50, regularPrice: 105.00 },
+            { name: "Lattafa Amethyst 100ml", price: 42.90, regularPrice: 59.90 },
+            { name: "Lattafa Sublime 100ml", price: 42.90, regularPrice: 59.90 },
+            { name: "Lattafa Honour and Glory 100ml", price: 42.90, regularPrice: 59.90 },
+            { name: "Lattafa Oud For Glory 100ml", price: 42.90, regularPrice: 59.90 },
+            { name: "Lattafa ASAD Zanzibar 100ml", price: 37.90, regularPrice: 49.90 },
+            { name: "YSL La Nuit de L'Homme Le Parfum 100ml", price: 43.90, regularPrice: 73.99 },
+            { name: "YSL L'Homme Le Parfum 100ml", price: 43.90, regularPrice: 73.99 },
+            { name: "YSL La Nuit De L'Homme L'Intense 100ml", price: 43.90, regularPrice: 73.99 },
+            { name: "YSL L'Homme EDT 100ml", price: 43.90, regularPrice: 73.99 },
+            { name: "Tom Ford Sole Di Positano EDP 100ml", price: 50.90, regularPrice: 110.50 },
+            { name: "Versace Eros EDP 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Viktor & Rolf Spicebomb EDT 90ml", price: 43.90, regularPrice: 72.90 },
+            { name: "Viktor & Rolf Spicebomb Night Vision 90ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Viktor & Rolf Spicebomb Metallic Musk EDP 90ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Dolce Gabbana Light Blue Summer Vibes 100ml", price: 43.90, regularPrice: 69.90 },
+            { name: "Dolce Gabbana King EDT 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "YSL MYSELF L'Absolu EDP 100ml", price: 48.90, regularPrice: 102.40 },
+            { name: "YSL Y L'Elixir EDP 100ml", price: 43.90, regularPrice: 76.99 },
+            { name: "Armani stronger with you only 100 ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Armani Stronger with you edt 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Scandal Absolu EDP 100ml", price: 46.90, regularPrice: 76.90 },
+            { name: "Tom Ford Neroli Portofino EDP 100ml", price: 43.90, regularPrice: 74.90 },
+            { name: "Tom Ford Vanille Fatale EDP 100ml", price: 50.50, regularPrice: 110.90 },
+            { name: "Tom Ford Fucking Fabulous EDP 100ml", price: 50.90, regularPrice: 110.90 },
+            { name: "Jean Paul Gaultier Scandal EDT 100ml", price: 46.90, regularPrice: 81.90 }
+        ];
+
+        const rawUnisexPerfumes = [
+            { name: "Xerjoff Erba Pura EDP 100ml", price: 47.90, regularPrice: 89.99 },
+            { name: "Barrois Ganymete 100ml", price: 51.90, regularPrice: 100.90 },
+            { name: "KAYAL Vanilla 28 EDP 100ML", price: 43.90, regularPrice: 72.90 },
+            { name: "Maison Baccarat Rouge 540 70ml", price: 47.90, regularPrice: 100.90 },
+            { name: "Byredo Mojave Ghost EDP 100ml", price: 53.90, regularPrice: 97.90 },
+            { name: "Maison Margiela Relaxing and Bright Lemon-EDT 100ML", price: 43.90, regularPrice: 84.90 },
+            { name: "Amouage Guidance 100ml", price: 57.90, regularPrice: 114.90 },
+            { name: "Matiere Premiere Vanilla Powder 100ml", price: 53.90, regularPrice: 91.90 },
+            { name: "Amouage Guidance 46 100ml", price: 57.90, regularPrice: 114.90 },
+            { name: "Byredo Palermo EDP 100ml", price: 53.90, regularPrice: 97.90 },
+            { name: "Inito Side Effect EDP 90ml", price: 53.90, regularPrice: 111.90 },
+            { name: "Inito Oud Of Greatness EDP 90ML", price: 53.90, regularPrice: 113.90 },
+            { name: "Montale Black Aoud 100ml", price: 43.90, regularPrice: 79.90 },
+            { name: "Montale Arabian Tonka 100 ml", price: 46.90, regularPrice: 92.90 },
+            { name: "Tom Ford Black Orchid edp 100ml", price: 43.90, regularPrice: 73.90 },
+            { name: "Maison Crivelli Oud Maracuja 50ml", price: 51.90, regularPrice: 93.90 },
+            { name: "Tom Ford Urban Musk 100ml", price: 50.90, regularPrice: 110.20 },
+            { name: "Casamorati Dama Bianca 100ml", price: 51.90, regularPrice: 89.90 },
+            { name: "Louis Vuittin Afternoon Swim 100ml", price: 47.90, regularPrice: 104.90 },
+            { name: "Parfum De Marley Haltane EDP 125ml", price: 49.90, regularPrice: 99.90 },
+            { name: "Byredo Gypsy Water EDP 100ml", price: 53.90, regularPrice: 97.90 },
+            { name: "Byredo Blanche EDP 100ml", price: 53.90, regularPrice: 97.90 },
+            { name: "Clive Christian X EDP 50ml", price: 53.90, regularPrice: 119.90 },
+            { name: "Nishane Hacivat 100ml", price: 53.90, regularPrice: 115.90 },
+            { name: "Kilian Angel Share 50ml", price: 46.90, regularPrice: 95.00 },
+            { name: "Montale Roses Musk 100 ml", price: 43.90, regularPrice: 83.90 },
+            { name: "Maison Margiela Fresh Rain and Sunrays-EDT 100ML", price: 43.90, regularPrice: 84.90 },
+            { name: "Montale Soleil Di Capri edp 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Montale Fantastic Oud edp 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Montale Dark Purple edp 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Montale Intense Pepper edp 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Montale Intense Tiare edp 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Montale Aoud Jasmine edp 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Montale Aoud Forest edp 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Montale Arabians edp 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Montale Ristretto Intense Caffe edp 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Montale Amber&Spices edp 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Montale White Musk edp 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Montale Pretty Fruity edp 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Montale Musk to Musk edp 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Montale Pink Extasy edp 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Montale Mango Manga edp 100ml", price: 43.90, regularPrice: 87.90 },
+            { name: "Stephane Humbert Lucas Sand Dance", price: 49.90, regularPrice: 93.90 },
+            { name: "Stephane Humbert Lucas Venom Incarnat", price: 50.70, regularPrice: 110.50 },
+            { name: "Stephane Humbert Lucas God Of Fire", price: 49.90, regularPrice: 93.90 },
+            { name: "Inito Oud For Happiness 90ml", price: 53.90, regularPrice: 103.90 },
+            { name: "Kilian Angel Share Paradise 50ml", price: 49.90, regularPrice: 94.99 },
+            { name: "YSL Lavalliere 75ml", price: 51.90, regularPrice: 93.99 },
+            { name: "YSL Tuxedo 75ml", price: 51.90, regularPrice: 93.99 },
+            { name: "YSL Caftan 75ml", price: 51.90, regularPrice: 93.99 },
+            { name: "YSL Caban 75ml", price: 51.90, regularPrice: 93.99 },
+            { name: "Xerjoff Erba Gold 100ml", price: 53.90, regularPrice: 99.99 },
+            { name: "Tiziana Terenzi Kirke 100ml", price: 56.90, regularPrice: 114.99 },
+            { name: "Tiziana Tenezi Holley 100ml", price: 56.90, regularPrice: 105.00 },
+            { name: "Tom Ford Jasmine Musk 100ml", price: 43.90, regularPrice: 71.90 },
+            { name: "Casamorati 1888 100ml", price: 51.90, regularPrice: 89.90 },
+            { name: "Casamorati Mefisto 100ml", price: 51.90, regularPrice: 89.90 },
+            { name: "Casamorati Lira 100ml", price: 51.90, regularPrice: 89.90 },
+            { name: "Casamorati Italica 100ml", price: 51.90, regularPrice: 89.90 },
+            { name: "ZOOLOGIST Camel 60 ml", price: 48.99, regularPrice: 89.99 },
+            { name: "ZOOLOGIST Squid 60 ml", price: 48.99, regularPrice: 89.99 },
+            { name: "ZOOLOGIST Penguin 60ml", price: 48.99, regularPrice: 89.99 },
+            { name: "ZOOLOGIST Bee 60ml", price: 48.99, regularPrice: 89.99 },
+            { name: "ZOOLOGIST Panda 60ml", price: 48.99, regularPrice: 89.99 },
+            { name: "Louis Vuitton L'immensite 100ml", price: 47.90, regularPrice: 104.90 },
+            { name: "Armaf Club De Nuit Sillage 105ml", price: 41.90, regularPrice: 57.90 },
+            { name: "Montale Starry Night EDP 100ML", price: 43.90, regularPrice: 73.90 },
+            { name: "Frederic Malle Portrait Of Lady EDP 100ML", price: 53.90, regularPrice: 99.90 },
+            { name: "Louis Vuitton Pur Oud 100ml", price: 47.90, regularPrice: 104.90 },
+            { name: "KAYALI Yum Pistachio Gelato 33 100ml", price: 43.90, regularPrice: 72.90 },
+            { name: "KAYALI Lovefest Burning Cherry 48 edp 100ml", price: 43.90, regularPrice: 72.90 },
+            { name: "Tiziana Terenzi Wirtanen EDP", price: 53.90, regularPrice: 102.99 },
+            { name: "Tiziana Terenzi Borelli", price: 53.90, regularPrice: 102.99 },
+            { name: "Xerjoff Accento Overdose EDP 100ml", price: 53.90, regularPrice: 110.99 },
+            { name: "Parfum De Marley Oajan EDP 125ml", price: 47.90, regularPrice: 94.99 },
+            { name: "Louis Vuitton Dancing Blossom EDP", price: 53.90, regularPrice: 93.90 },
+            { name: "Louis Vuitton Myriad EDP", price: 53.90, regularPrice: 93.90 },
+            { name: "Louis Vuitton Rhapsody EDP", price: 53.90, regularPrice: 93.90 },
+            { name: "Louis Vuitton Cosmic Cloud EDP", price: 53.90, regularPrice: 79.90 },
+            { name: "Roja Scandal Pour Homme EDP 50ml", price: 53.90, regularPrice: 108.99 },
+            { name: "Roja Apex", price: 53.90, regularPrice: 103.99 },
+            { name: "Byredo Flowerhead EDP 100ml", price: 53.90, regularPrice: 97.90 },
+            { name: "Byredo Velvet Haze EDP 100ml", price: 53.90, regularPrice: 97.90 },
+            { name: "Nasomatto Narcotic V EDP 30ml", price: 47.90, regularPrice: 71.90 },
+            { name: "Nasomatto Sadonaso EDP 30ml", price: 47.90, regularPrice: 73.90 },
+            { name: "Nasomatto Black Afgano EDP 30ml", price: 47.90, regularPrice: 77.90 },
+            { name: "Kilian Roses on Ice 50 ml", price: 43.90, regularPrice: 77.90 },
+            { name: "Clive Christian 1872 Red EDP 50ml", price: 53.90, regularPrice: 114.90 },
+            { name: "Clive Christian 1872 EDP 50ml", price: 53.90, regularPrice: 114.90 },
+            { name: "Clive Christian No1 EDP 50ml", price: 53.90, regularPrice: 114.90 },
+            { name: "Nishane Zenne EDP 100ML", price: 53.90, regularPrice: 116.99 },
+            { name: "Xerjoff Groove Xcape EDP 100ML", price: 53.90, regularPrice: 113.99 },
+            { name: "Xerjoff Torino 21 EDP 100ML", price: 53.90, regularPrice: 117.99 },
+            { name: "Rabanne Mesh Metal EDP 125ML", price: 51.90, regularPrice: 104.99 },
+            { name: "Rabanne Midnight Sex EDP 125ML", price: 51.90, regularPrice: 104.99 },
+            { name: "Rabanne Night Soul EDP 125ML", price: 51.90, regularPrice: 104.99 },
+            { name: "Rabanne Silver Silk EDP 125ML", price: 51.90, regularPrice: 104.99 },
+            { name: "Armani Prive Rouge Malachite 100ml", price: 51.90, regularPrice: 94.90 },
+            { name: "Armani Prive Oud Royal 100ml", price: 51.90, regularPrice: 94.90 },
+            { name: "Armani Prive Cuir Noir 100ml", price: 51.90, regularPrice: 97.90 },
+            { name: "Barrois B683 100ml", price: 51.90, regularPrice: 83.90 },
+            { name: "Nishane Ani X 100ml", price: 53.90, regularPrice: 115.90 },
+            { name: "Nishane Karagoz 100ml", price: 53.90, regularPrice: 115.90 },
+            { name: "Nishane Ani 100ml", price: 53.90, regularPrice: 115.90 },
+            { name: "Montale Rose Elixir 100ml", price: 43.90, regularPrice: 83.90 },
+            { name: "Montale Aoud Night 100ml", price: 43.90, regularPrice: 80.90 },
+            { name: "Montale Chocolade Greedy 100ml", price: 46.60, regularPrice: 96.80 },
+            { name: "Montale Intense Cafe 100 ml", price: 44.90, regularPrice: 83.90 },
+            { name: "Maison Oud Silk Mood 70 ml", price: 48.00, regularPrice: 99.50 },
+            { name: "Maison Oud 70 ml", price: 47.90, regularPrice: 100.90 },
+            { name: "Maison Oud Satin Mood 70 ml", price: 48.20, regularPrice: 104.00 },
+            { name: "Maison Baccarat EDP 70 ml", price: 47.90, regularPrice: 100.90 },
+            { name: "Xerjoff Opera EDP 100ml", price: 47.90, regularPrice: 91.99 },
+            { name: "Xerjoff Accento EDP 100ml", price: 47.90, regularPrice: 91.99 },
+            { name: "Tiziana Terenzi Ursa EDP 100ml", price: 47.90, regularPrice: 94.99 },
+            { name: "Tiziana Terenzi Draco EDP 100ml", price: 47.90, regularPrice: 94.99 },
+            { name: "Tiziana Terenzi Porpora EDP 100ml", price: 48.30, regularPrice: 103.00 },
+            { name: "Tiziana Terenzi Kirke EDP 100ml", price: 47.90, regularPrice: 99.99 }
+        ];
+
+                const featuredPerfumesList = [
+            { name: "Creed Aventus EDP 100ml", price: 44.90, regularPrice: 76.90, image: "meshkuj19.jpg" },
+            { name: "Dior Sauvage Elixir EDP 60ml", price: 43.90, regularPrice: 76.90, image: "meshkuj12.jpg" },
+            { name: "Parfum De Marley Layton 125ml", price: 43.90, regularPrice: 77.90, image: "meshkuj42.jpg" },
+            { name: "Bleu de Chanel EDP 100ml", price: 43.90, regularPrice: 79.90, image: "meshkuj29.jpg" },
+            { name: "Carolina Herrera Good Girl 80 ml", price: 43.90, regularPrice: 73.90, image: "parfumi161.jpg" },
+            { name: "YSL Libre Edp 90ml", price: 43.90, regularPrice: 89.99, image: "parfumi154.jpg" },
+            { name: "Coco Mademoiselle Chanel Paris EDP 100ml", price: 43.90, regularPrice: 87.90, image: "parfumi95.jpg" },
+            { name: "La Vie Est Belle EDP 75ml", price: 43.90, regularPrice: 73.90, image: "parfumi148.jpg" }
+        ];
+
+        const femalePerfumes = rawPerfumes.map((item, index) => ({ ...item, image: `parfumi${index + 1}.jpg` }));
+        const malePerfumes = rawMenPerfumes.map((item, index) => ({ ...item, image: `meshkuj${index + 1}.jpg` }));
+        const unisexPerfumes = rawUnisexPerfumes.map((item, index) => ({ ...item, image: `unisex${index + 1}.jpg` }));
+
+        function loadFeaturedProducts() {
+            const container = document.getElementById('home-featured-grid');
+            if (!container) return;
+            let html = '';
+            featuredPerfumesList.forEach(p => {
+                let priceHtml = `<p class="text-amber-700 font-bold mb-4">€${p.price.toFixed(2)}`;
+                if (p.regularPrice) {
+                    priceHtml += ` <span class="text-xs text-slate-400 line-through font-normal ml-1">€${p.regularPrice.toFixed(2)}</span>`;
+                }
+                priceHtml += `</p>`;
+
+                html += `
+                    <div class="bg-white rounded-2xl p-3 sm:p-4 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
+                        <div>
+                            <div class="bg-[#F9F6F0] h-40 sm:h-52 rounded-xl flex items-center justify-center mb-4 overflow-hidden">
+                                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x300?text=Foto+Mungon';">
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-xs sm:text-sm mb-1 line-clamp-2">${p.name}</h3>
+                            ${priceHtml}
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <button onclick="addToCart('${p.name.replace(/'/g, "\\'")}', ${p.price})" class="bg-slate-900 hover:bg-slate-800 text-white text-[11px] sm:text-xs py-2 rounded-xl font-medium transition cursor-pointer">Shto</button>
+                            <button onclick="openCheckout('${p.name.replace(/'/g, "\\'")}', ${p.price})" class="bg-amber-600 hover:bg-amber-500 text-white text-[11px] sm:text-xs py-2 rounded-xl font-bold transition cursor-pointer">Blej</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function loadFemaleProducts() {
+            const container = document.getElementById('femra-products-grid');
+            if (!container) return;
+            let html = '';
+            femalePerfumes.forEach(p => {
+                let priceHtml = `<p class="text-amber-700 font-bold mb-4">€${p.price.toFixed(2)}`;
+                if (p.regularPrice) {
+                    priceHtml += ` <span class="text-xs text-slate-400 line-through font-normal ml-1">€${p.regularPrice.toFixed(2)}</span>`;
+                }
+                priceHtml += `</p>`;
+
+                html += `
+                    <div class="bg-white rounded-2xl p-3 sm:p-4 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
+                        <div>
+                            <div class="bg-[#F9F6F0] h-44 sm:h-60 rounded-xl flex items-center justify-center mb-4 overflow-hidden">
+                                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x300?text=Foto+Mungon';">
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-xs sm:text-sm mb-1 line-clamp-2">${p.name}</h3>
+                            ${priceHtml}
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <button onclick="addToCart('${p.name.replace(/'/g, "\\'")}', ${p.price})" class="bg-slate-900 hover:bg-slate-800 text-white text-[11px] sm:text-xs py-2 rounded-xl font-medium transition cursor-pointer">Shto</button>
+                            <button onclick="openCheckout('${p.name.replace(/'/g, "\\'")}', ${p.price})" class="bg-amber-600 hover:bg-amber-500 text-white text-[11px] sm:text-xs py-2 rounded-xl font-bold transition cursor-pointer">Blej</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function loadMaleProducts() {
+            const container = document.getElementById('meshkuj-products-grid');
+            if (!container) return;
+            let html = '';
+            malePerfumes.forEach(p => {
+                let priceHtml = `<p class="text-amber-700 font-bold mb-4">€${p.price.toFixed(2)}`;
+                if (p.regularPrice) {
+                    priceHtml += ` <span class="text-xs text-slate-400 line-through font-normal ml-1">€${p.regularPrice.toFixed(2)}</span>`;
+                }
+                priceHtml += `</p>`;
+
+                html += `
+                    <div class="bg-white rounded-2xl p-3 sm:p-4 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
+                        <div>
+                            <div class="bg-[#F9F6F0] h-44 sm:h-60 rounded-xl flex items-center justify-center mb-4 overflow-hidden">
+                                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x300?text=Foto+Mungon';">
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-xs sm:text-sm mb-1 line-clamp-2">${p.name}</h3>
+                            ${priceHtml}
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <button onclick="addToCart('${p.name.replace(/'/g, "\\'")}', ${p.price})" class="bg-slate-900 hover:bg-slate-800 text-white text-[11px] sm:text-xs py-2 rounded-xl font-medium transition cursor-pointer">Shto</button>
+                            <button onclick="openCheckout('${p.name.replace(/'/g, "\\'")}', ${p.price})" class="bg-amber-600 hover:bg-amber-500 text-white text-[11px] sm:text-xs py-2 rounded-xl font-bold transition cursor-pointer">Blej</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function loadUnisexProducts() {
+            const container = document.getElementById('unisex-products-grid');
+            if (!container) return;
+            let html = '';
+            unisexPerfumes.forEach(p => {
+                let priceHtml = `<p class="text-amber-700 font-bold mb-4">€${p.price.toFixed(2)}`;
+                if (p.regularPrice) {
+                    priceHtml += ` <span class="text-xs text-slate-400 line-through font-normal ml-1">€${p.regularPrice.toFixed(2)}</span>`;
+                }
+                priceHtml += `</p>`;
+
+                html += `
+                    <div class="bg-white rounded-2xl p-3 sm:p-4 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
+                        <div>
+                            <div class="bg-[#F9F6F0] h-44 sm:h-60 rounded-xl flex items-center justify-center mb-4 overflow-hidden">
+                                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x300?text=Foto+Mungon';">
+                            </div>
+                            <h3 class="font-semibold text-slate-800 text-xs sm:text-sm mb-1 line-clamp-2">${p.name}</h3>
+                            ${priceHtml}
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <button onclick="addToCart('${p.name.replace(/'/g, "\\'")}', ${p.price})" class="bg-slate-900 hover:bg-slate-800 text-white text-[11px] sm:text-xs py-2 rounded-xl font-medium transition cursor-pointer">Shto</button>
+                            <button onclick="openCheckout('${p.name.replace(/'/g, "\\'")}', ${p.price})" class="bg-amber-600 hover:bg-amber-500 text-white text-[11px] sm:text-xs py-2 rounded-xl font-bold transition cursor-pointer">Blej</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        let cart = [];
+
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('hidden');
+            renderCart();
+        }
+
+        function addToCart(name, price) {
+            const existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ name, price, qty: 1 });
+            }
+            updateCartCount();
+            toggleCart();
+        }
+
+        function updateCartCount() {
+            const countEl = document.getElementById('cart-count');
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            countEl.textContent = totalQty;
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items');
+            const checkoutBtn = document.getElementById('cart-checkout-btn');
+            const totalEl = document.getElementById('cart-total');
+
+            if (cart.length === 0) {
+                container.innerHTML = `<p class="text-slate-500 text-center py-8">Shporta juaj është e zbrazët.</p>`;
+                checkoutBtn.classList.add('hidden');
+                totalEl.textContent = '€0.00';
+                return;
+            }
+
+            checkoutBtn.classList.remove('hidden');
+            let html = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                let itemTotal = item.price * item.qty;
+                total += itemTotal;
+                html += `
+                    <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 text-xs">
+                        <div class="flex-1 pr-2">
+                            <h4 class="font-bold text-slate-800">${item.name}</h4>
+                            <p class="text-amber-700 font-semibold">€${item.price.toFixed(2)} x ${item.qty}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="changeQty(${index}, 1)" class="w-6 h-6 bg-slate-100 rounded flex items-center justify-center font-bold text-slate-700 hover:bg-slate-200">+</button>
+                            <button onclick="changeQty(${index}, -1)" class="w-6 h-6 bg-slate-100 rounded flex items-center justify-center font-bold text-slate-700 hover:bg-slate-200">-</button>
+                            <button onclick="removeItem(${index})" class="text-red-500 hover:text-red-700 ml-1"><i class="fa-solid fa-trash text-xs"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            totalEl.textContent = `€${total.toFixed(2)}`;
+        }
+
+        function changeQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartCount();
+            renderCart();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            renderCart();
+        }
+
+        let directCheckoutItem = null;
+
+        function openCheckout(name, price) {
+            directCheckoutItem = { name, price, qty: 1 };
+            const summaryContainer = document.getElementById('checkout-product-summary');
+            summaryContainer.innerHTML = `
+                <p class="font-bold text-slate-900">${name}</p>
+                <p class="text-amber-700 font-bold mt-1">Çmimi: €${price.toFixed(2)}</p>
+            `;
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function openCartCheckout() {
+            if (cart.length === 0) return;
+            directCheckoutItem = null;
+            let summaryText = cart.map(i => `${i.name} (x${i.qty}) - €${(i.price * i.qty).toFixed(2)}`).join(', ');
+            let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            
+            const summaryContainer = document.getElementById('checkout-product-summary');
+            summaryContainer.innerHTML = `
+                <p class="font-bold text-slate-900 mb-1">Produktet në Shportë (${cart.reduce((s, i) => s + i.qty, 0)}):</p>
+                <p class="text-xs text-slate-600 mb-2">${summaryText}</p>
+                <p class="text-amber-700 font-bold">Totali: €${total.toFixed(2)}</p>
+            `;
+            toggleCart();
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function toggleCheckoutModal() {
+            document.getElementById('checkout-modal').classList.toggle('hidden');
+        }
+
+        function prepareOrderData() {
+            let details = "";
+            if (directCheckoutItem) {
+                details = `Produkt: ${directCheckoutItem.name} | Çmimi: €${directCheckoutItem.price.toFixed(2)}`;
+            } else {
+                let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+                details = cart.map(i => `${i.name} (x${i.qty}) - €${(i.price * i.qty).toFixed(2)}`).join(' | ') + ` | Totali: €${total.toFixed(2)}`;
+            }
+            document.getElementById('form-product-details').value = details;
+        }
+
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('page-' + pageId).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-amber-700', 'font-bold');
+                btn.classList.add('text-slate-700');
+            });
+            const activeNav = document.getElementById('nav-' + pageId);
+            if (activeNav) {
+                activeNav.classList.remove('text-slate-700');
+                activeNav.classList.add('text-amber-700', 'font-bold');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const dropdown = document.getElementById('mobile-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        window.onload = function() {
+            loadFeaturedProducts();
+            loadFemaleProducts();
+            loadMaleProducts();
+            loadUnisexProducts();
+        };
+    </script>
+</body>
+</html>
